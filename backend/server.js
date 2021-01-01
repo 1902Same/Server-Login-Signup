@@ -7,6 +7,7 @@ let sdata = [
     },
 ];
 
+var PORT = process.env.PORT || 5000;
 var express = require("express");
 var cors = require('cors');
 var morgan = require('morgan');
@@ -30,12 +31,17 @@ app.post('/signup', (req, res) => {
         }
     }
     if (isFound) {
-        res.send("User already exist!")
+        res.send({
+            status: 400, //Is ka matlab hay email already exist
+            message: "User already exist!"
+        });
     }
     else {
         sdata.push(req.body);
-        console.log(req.body);
-        res.send("Signup Successful");
+        res.send({
+            status: 200, //Is ka matlab hay email oke hay
+            message: "Signup Successful"
+        });
     }
 })
 
@@ -53,18 +59,21 @@ app.post('/login', (req, res) => {
         }
     }
     if (isFound === false) {
-        res.send("User not found :(")
+        res.send({
+            status: 401, //Is ka matlab hay password incorrect
+            message: "User Not Found! :("
+        });
     }
     else {
         res.send({
-            name: sdata[isFound].name,
-            fname: sdata[isFound].fathername,
-            email: sdata[isFound].email
+            status: 200, // Is ka matlab hay email and password is correct
+            message: "Login Success :)",
+            alluser: sdata[isFound],
         });
     }
 })
 
 
-app.listen(3000, () => {
-    console.log("Server is runing on 3000 Port");
+app.listen(PORT, () => {
+    console.log("Server is runing on " + PORT);
 })

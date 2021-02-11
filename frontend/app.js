@@ -1,6 +1,5 @@
 // const url = 'http://localhost:5000';
-const url = 'http://localhost:5000';
-
+const url = "http://localhost:5000";
 
 function SignUp() {
     var user = {
